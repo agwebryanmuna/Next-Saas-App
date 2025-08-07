@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select"
 import {Textarea} from "@/components/ui/textarea";
 import {subjects} from "@/constants";
-import { createCompanion } from "@/lib/companions.action";
+import { createCompanion } from "@/lib/actions/companions.action";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
