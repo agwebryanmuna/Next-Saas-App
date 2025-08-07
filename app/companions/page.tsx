@@ -1,4 +1,4 @@
-import { getAllcompanions } from "@/lib/actions/companions.action";
+import { getAllCompanions } from "@/lib/actions/companions.action";
 import CompanionCard from "@/components/CompanionCard";
 import { getSubjectColor } from "@/lib/utils";
 import SearchInput from "@/components/SearchInput";
@@ -9,7 +9,7 @@ const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
   const subject = filters.subject ? filters.subject : '';
   const topic = filters.topic ? filters.topic : '';
   
-  const companions = await getAllcompanions({ subject, topic });
+  const companions = await getAllCompanions({ subject, topic });
   
   
   return (

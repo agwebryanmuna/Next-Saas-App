@@ -21,7 +21,7 @@ export const createCompanion = async (formData: CreateCompanion) => {
   return data[0]
 }
 
-export const getAllcompanions = async ({limit = 10, page = 1, subject, topic}: GetAllCompanions) => {
+export const getAllCompanions = async ({limit = 10, page = 1, subject, topic}: GetAllCompanions) => {
   const superbase = createSuperbaseClient();
   
   let query = superbase.from('Companions').select()
@@ -42,4 +42,18 @@ export const getAllcompanions = async ({limit = 10, page = 1, subject, topic}: G
   if(error) throw new Error(error.message);
   
   return companions;
+}
+
+
+export const getCompanion = async (id: string) => {
+  const supabase = createSuperbaseClient();
+  
+  const { data, error } = await supabase
+  .from('Companions')
+  .select()
+  .eq('id', id);
+  
+  if(error) return console.log(error);
+  
+  return data[0];
 }
