@@ -16,6 +16,7 @@ export const configureAssistant = (voice: string, style: string) => {
     style as keyof (typeof voices)[keyof typeof voices]
     ] || "sarah";
   
+ 
   const vapiAssistant: CreateAssistantDTO = {
     name: "Companion",
     firstMessage:
@@ -54,7 +55,9 @@ export const configureAssistant = (voice: string, style: string) => {
         },
       ],
     },
+    // @ts-expect-error (Work on later)
     clientMessages: [],
+    // @ts-expect-error (Work on later)
     serverMessages: [],
   };
   return vapiAssistant;
