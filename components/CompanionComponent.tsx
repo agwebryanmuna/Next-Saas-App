@@ -71,7 +71,7 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
       vapi.off('speech-end', onSpeechEnd)
     }
     
-  }, [])
+  }, [companionId])
   
   const toggleMicrophone = () => {
     const isMuted = vapi.isMuted();

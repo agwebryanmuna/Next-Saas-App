@@ -21,7 +21,6 @@ const CompanionCard = (
     subject,
     duration,
     color,
-    bookmarked,
   }: CompanionCardProps
 ) => {
   return (
