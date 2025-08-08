@@ -1,11 +1,11 @@
 'use server'
 
 import { auth } from "@clerk/nextjs/server";
-import { createSuperbaseClient } from "@/lib/superbase";
+import { createSupabaseClient } from "@/lib/superbase";
 
 export const createCompanion = async (formData: CreateCompanion) => {
   const { userId: author} = await auth();
-  const superbase = createSuperbaseClient();
+  const superbase = createSupabaseClient();
   
   const { data, error } = await superbase
     .from('Companions')
@@ -22,7 +22,7 @@ export const createCompanion = async (formData: CreateCompanion) => {
 }
 
 export const getAllCompanions = async ({limit = 10, page = 1, subject, topic}: GetAllCompanions) => {
-  const superbase = createSuperbaseClient();
+  const superbase = createSupabaseClient();
   
   let query = superbase.from('Companions').select()
   
@@ -46,7 +46,7 @@ export const getAllCompanions = async ({limit = 10, page = 1, subject, topic}: G
 
 
 export const getCompanion = async (id: string) => {
-  const supabase = createSuperbaseClient();
+  const supabase = createSupabaseClient();
   
   const { data, error } = await supabase
   .from('Companions')
@@ -56,4 +56,45 @@ export const getCompanion = async (id: string) => {
   if(error) return console.log(error);
   
   return data[0];
+}
+
+export const addToSessionHistory = async (companionId: string) => {
+  const { userId } = await auth();
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase.from('session_history')
+  .insert({
+    companion_id: companionId,
+    user_id: userId,
+  })
+  
+  if(error) throw new Error(error.message);
+  
+  return data;
+}
+
+export const getRecentSessions = async (limit = 10) => {
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase
+  .from('session_history')
+  .select(`companions:companion_id (*)`)
+  .order('created_at', { ascending: false })
+  .limit(limit)
+  
+  if(error) throw new Error(error.message);
+  
+  return data.map(({ companions }) => companions);
+}
+
+export const getUserSessions = async (userId: string, limit = 10) => {
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase
+  .from('session_history')
+  .select(`companions:companion_id (*)`)
+  .eq('user_id', userId)
+  .order('created_at', { ascending: false })
+  .limit(limit)
+  
+  if(error) throw new Error(error.message);
+  
+  return data.map(({ companions }) => companions);
 }
