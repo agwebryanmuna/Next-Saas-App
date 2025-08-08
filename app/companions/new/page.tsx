@@ -3,15 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { newCompanionPermissions } from "@/lib/actions/companions.action";
 
 const NewCompanion = async () => {
   const { userId } = await auth()
   
   if (!userId) redirect('/sign-in')
   
+  const canCreateCompanions = await newCompanionPermissions();
+  
   return (
     <main className="min-lg:w-1/3 min-md:w-2/3 items-center justify-center">
-      {10>4 ? (
+      {canCreateCompanions ? (
         <article className="w-full gap-4 flex flex-col">
           <h1>Companion Builder</h1>
           
